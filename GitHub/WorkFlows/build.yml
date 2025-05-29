@@ -4,20 +4,20 @@ on:
   push:
     branches:
       - main
-  
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Clonae repositorio
+      - name: Clonar repositorio
         uses: actions/checkout@v2
 
       - name: Login a Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USER}} -p ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
 
       - name: Crear imagen
-        uses: docker build -t fernandaballesteros/music-api-411:latest .
+        run: docker build -t fernandaballesteros/music-api-411:latest .
 
       - name: Publicar imagen
-        uses: docker push fernandaballesteros/music-api-411:latest
-       
+        run: docker push fernandaballesteros/music-api-411:latest
